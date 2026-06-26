@@ -37,7 +37,36 @@ O compilador segue três fases bem definidas:
 
 ## 3 - Como usar:
 
-### 3.1 - Como script:
+### 1. Instale a dependência
+
+O projeto usa apenas a biblioteca `lark` para fazer a análise sintática:
+
+```bash
+pip install lark
+```
+
+### 2. Salve o arquivo
+
+Coloque o arquivo `dsl_html.py` em uma pasta qualquer no seu computador.
+
+### 3. Escreva seu programa na DSL
+
+Você pode editar um dos programas de teste que já existem no arquivo (`prog_elementos`, `prog_variaveis`, `prog_estilos`) ou escrever o seu próprio código, seguindo a sintaxe da linguagem. Exemplo simples:
+
+```
+pagina "Minha Página" {
+    titulo 1 "Olá, mundo!" cor: "navy"
+    paragrafo {
+        "Este texto foi gerado pela minha "
+        negrito "DSL"
+        "!"
+    }
+}
+```
+
+### 4. Rode pelo terminal
+
+Abra o terminal na pasta onde está o `dsl_html.py` e execute:
 
 ```bash
 python dsl_html.py [elementos|variaveis|estilos|erro] [arquivo_saida.html]
@@ -47,22 +76,52 @@ python dsl_html.py [elementos|variaveis|estilos|erro] [arquivo_saida.html]
 - `variaveis` — demonstra variáveis, condicionais e repetição
 - `estilos` — demonstra os modificadores de estilo CSS
 - `erro` — demonstra a detecção de um erro semântico
-- `arquivo_saida.html` (opcional) — salva o HTML gerado em um arquivo; se omitido, imprime no terminal
+- `arquivo_saida.html` (opcional) — salva o HTML gerado em um arquivo; se omitido, o resultado é apenas impresso no terminal
 
-### 3.2 - Como módulo:
+Exemplos:
+
+```bash
+python dsl_html.py variaveis
+python dsl_html.py elementos
+python dsl_html.py estilos
+python dsl_html.py erro
+```
+
+Para gerar um arquivo `.html` de verdade, que você pode abrir direto no navegador:
+
+```bash
+python dsl_html.py variaveis saida.html
+```
+
+### 5. Usar com seu próprio código (forma mais útil)
+
+Para compilar **o seu próprio texto na DSL**, em vez de usar os exemplos prontos, importe a função `compilar` em outro script Python:
 
 ```python
 from dsl_html import compilar
 
-codigo = '''
-pagina "Exemplo" {
-    titulo 1 "Funciona!"
+meu_codigo = """
+pagina "Meu Site" {
+    titulo 1 "Bem-vindo!"
+    paragrafo {
+        "Compilado com minha própria DSL."
+    }
 }
-'''
+"""
 
-html = compilar(codigo)
-print(html)
+html = compilar(meu_codigo)
+
+with open("meu_site.html", "w", encoding="utf-8") as f:
+    f.write(html)
+
+print("HTML gerado com sucesso!")
 ```
+
+Basta rodar esse novo script (`python meu_script.py`) na mesma pasta onde está o `dsl_html.py`, e o arquivo `meu_site.html` será criado.
+
+### Dica sobre erros
+
+Se você cometer algum erro semântico — por exemplo, usar uma propriedade CSS que não existe (`destaque:` em vez de `cor:`) ou uma URL sem `http://`/`https://` — o compilador vai parar e mostrar uma mensagem explicando exatamente o que está errado, como no exemplo `erro` do próprio arquivo.
 
 ## 4 - Requisitos:
 
