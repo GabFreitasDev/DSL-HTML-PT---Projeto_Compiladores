@@ -37,59 +37,69 @@ O compilador segue três fases bem definidas:
 
 ## 3 - Como usar:
 
-### 1. Instale a dependência
-
-O projeto usa apenas a biblioteca `lark` para fazer a análise sintática:
+### 1. Clone o repositório
 
 ```bash
+git clone https://github.com/GabFreitasDev/DSL-HTML-PT---Projeto_Compiladores.git
+cd DSL-HTML-PT---Projeto_Compiladores
+```
+
+### 2. Crie o ambiente virtual e instale a dependência
+
+O projeto usa apenas a biblioteca `lark` para fazer a análise sintática. Como muitos sistemas não permitem instalar pacotes Python globalmente via `pip`, recomenda-se usar um ambiente virtual:
+
+**Linux/macOS:**
+```bash
+python -m venv .venv
+source .venv/bin/activate
 pip install lark
 ```
 
-### 2. Salve o arquivo
+**Windows:**
+```powershell
+python -m venv .venv
+.venv\Scripts\activate
+pip install lark
+```
 
-Coloque o arquivo `dsl_html.py` em uma pasta qualquer no seu computador.
+> **Erro no PowerShell?** Se aparecer "running scripts is disabled on this system", o Windows está bloqueando a execução de scripts `.ps1` por padrão. Roda esse comando uma vez no PowerShell e resolve:
+> ```powershell
+> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+> ```
+> Outra opção é usar o **cmd.exe** no lugar do PowerShell — lá não tem essa restrição.
+
+Nas próximas vezes que abrir o terminal, basta ativar o ambiente antes de rodar o projeto.
 
 ### 3. Escreva seu programa na DSL
 
-Você pode editar um dos programas de teste que já existem no arquivo (`prog_elementos`, `prog_variaveis`, `prog_estilos`) ou escrever o seu próprio código, seguindo a sintaxe da linguagem. Exemplo simples:
-
-```
-pagina "Minha Página" {
-    titulo 1 "Olá, mundo!" cor: "navy"
-    paragrafo {
-        "Este texto foi gerado pela minha "
-        negrito "DSL"
-        "!"
-    }
-}
-```
+Crie um novo arquivo `.py` na mesma pasta do `dsl_html.py` e use a função `compilar` para escrever seu próprio código na DSL — o passo **"5. Usar com seu próprio código"** logo abaixo tem um exemplo completo. A referência de sintaxe está na seção **"5 - Sintaxe da linguagem"** do documento.
 
 ### 4. Rode pelo terminal
 
-Abra o terminal na pasta onde está o `dsl_html.py` e execute:
+Antes de qualquer coisa, lembra de ativar o ambiente virtual (se ainda não fez):
 
+**Linux/macOS:**
 ```bash
-python dsl_html.py [elementos|variaveis|estilos|erro] [arquivo_saida.html]
+source .venv/bin/activate
 ```
 
-- `elementos` — demonstra os elementos básicos da linguagem
-- `variaveis` — demonstra variáveis, condicionais e repetição
-- `estilos` — demonstra os modificadores de estilo CSS
-- `erro` — demonstra a detecção de um erro semântico
-- `arquivo_saida.html` (opcional) — salva o HTML gerado em um arquivo; se omitido, o resultado é apenas impresso no terminal
+**Windows:**
+```powershell
+.venv\Scripts\activate
+```
 
-Exemplos:
+Aí é só rodar um dos quatro programas de exemplo:
 
-```bash
-python dsl_html.py variaveis
-python dsl_html.py elementos
-python dsl_html.py estilos
-python dsl_html.py erro
+```
+python dsl_html.py elementos   # elementos básicos da linguagem
+python dsl_html.py variaveis   # variáveis, condicionais e repetição
+python dsl_html.py estilos     # modificadores de estilo CSS
+python dsl_html.py erro        # erro semântico detectado pelo compilador
 ```
 
 Para gerar um arquivo `.html` de verdade, que você pode abrir direto no navegador:
 
-```bash
+```
 python dsl_html.py variaveis saida.html
 ```
 
@@ -111,13 +121,19 @@ pagina "Meu Site" {
 
 html = compilar(meu_codigo)
 
-with open("meu_site.html", "w", encoding="utf-8") as f:
+with open("saida.html", "w", encoding="utf-8") as f:
     f.write(html)
 
 print("HTML gerado com sucesso!")
 ```
 
-Basta rodar esse novo script (`python meu_script.py`) na mesma pasta onde está o `dsl_html.py`, e o arquivo `meu_site.html` será criado.
+Salve esse código em um arquivo chamado `meu_script.py` na mesma pasta do `dsl_html.py` e rode:
+
+```
+python meu_script.py
+```
+
+O arquivo `saida.html` será criado na mesma pasta.
 
 ### Dica sobre erros
 
@@ -126,11 +142,7 @@ Se você cometer algum erro semântico — por exemplo, usar uma propriedade CSS
 ## 4 - Requisitos:
 
 - Python 3.10+ (usa `match`/`case`)
-- [`lark`](https://pypi.org/project/lark/)
-
-```bash
-pip install lark
-```
+- [`lark`](https://pypi.org/project/lark/) — instale dentro de um ambiente virtual (veja seção 3.2)
 
 ## 5 - Sintaxe da linguagem:
 
