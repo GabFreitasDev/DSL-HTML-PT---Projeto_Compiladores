@@ -1,4 +1,4 @@
-# DSL-HTML-PT 🇧🇷
+# DSL-HTML-PT BR
 
 Uma **linguagem de domínio específico (DSL)** em português que compila para HTML, construída em Python com [Lark](https://github.com/lark-parser/lark).
 
