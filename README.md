@@ -137,7 +137,7 @@ O arquivo `saida.html` será criado na mesma pasta.
 
 ### Dica sobre erros
 
-Se você cometer algum erro semântico — por exemplo, usar uma propriedade CSS que não existe (`destaque:` em vez de `cor:`) ou uma URL sem `http://`/`https://` — o compilador vai parar e mostrar uma mensagem explicando exatamente o que está errado, como no exemplo `erro` do próprio arquivo.
+Se você cometer algum erro semântico — por exemplo, usar uma propriedade CSS que não existe (`destaque:` em vez de `cor:`) ou uma URL sem `http://` ou `https://` — o compilador vai parar e mostrar uma mensagem explicando exatamente o que está errado, como no exemplo `erro` do próprio arquivo.
 
 ## 4 - Requisitos:
 
